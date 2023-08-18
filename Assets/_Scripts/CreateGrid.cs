@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -19,10 +20,12 @@ public class CreateGrid : MonoBehaviour
     int score = 0;
 
     public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI gameStatusText;
 
     private void Awake()
     {
         gridItems = new List<GameObject>();
+        gameStatusText.text = string.Empty;
     }
 
     public void CreateGridM()
@@ -67,8 +70,21 @@ public class CreateGrid : MonoBehaviour
 
     public void SetOpenCard(CardCtrl cardCtrl)
     {
+        AudioCtrl.instance.PlayCardFlip();
         openCards.Enqueue(cardCtrl);
         ValidateCardsMatched();
+
+        ValidateGameEnd();
+
+    }
+
+    private void ValidateGameEnd()
+    {
+        if (score == rows * columns / 2)
+        {
+            AudioCtrl.instance.PlayGameOver();
+            gameStatusText.text = "Game Over";
+        }
     }
 
     public void ValidateCardsMatched()
@@ -83,12 +99,14 @@ public class CreateGrid : MonoBehaviour
             {
                 Destroy(card1.gameObject);
                 Destroy(card2.gameObject);
+                AudioCtrl.instance.PlayCardsMatched();
                 AddScore();
             }
             else
             {
                 card1.CloseCard();
                 card2.CloseCard();
+                AudioCtrl.instance.PlayCardsMismatched();
             }
         }
     }
@@ -98,4 +116,6 @@ public class CreateGrid : MonoBehaviour
         score = score + 1;
         scoreText.text = "Score: " + score.ToString();
     }
+
+   
 }
