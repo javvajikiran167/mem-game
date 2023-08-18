@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +15,10 @@ public class CreateGrid : MonoBehaviour
     private List<GameObject> gridItems;
 
     Queue<CardCtrl> openCards = new Queue<CardCtrl>();
+
+    int score = 0;
+
+    public TextMeshProUGUI scoreText;
 
     private void Awake()
     {
@@ -60,8 +65,6 @@ public class CreateGrid : MonoBehaviour
         gridItems.Add(item);
     }
 
-
-
     public void SetOpenCard(CardCtrl cardCtrl)
     {
         openCards.Enqueue(cardCtrl);
@@ -80,6 +83,7 @@ public class CreateGrid : MonoBehaviour
             {
                 Destroy(card1.gameObject);
                 Destroy(card2.gameObject);
+                AddScore();
             }
             else
             {
@@ -87,5 +91,11 @@ public class CreateGrid : MonoBehaviour
                 card2.CloseCard();
             }
         }
+    }
+
+    private void AddScore()
+    {
+        score = score + 1;
+        scoreText.text = "Score: " + score.ToString();
     }
 }
