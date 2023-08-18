@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -12,19 +13,10 @@ public class FlipCard : MonoBehaviour
         isCardFaceActive = false;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            StartCoroutine(FlipTheCard(!isCardFaceActive));
-        }
-    }
 
-
-    private void Flip()
+    public void Flip(Action flipCompleteCallBack)
     {
-        StartCoroutine(FlipTheCard(!isCardFaceActive));
+        StartCoroutine(FlipTheCard(!isCardFaceActive, flipCompleteCallBack));
     }
 
 
@@ -43,7 +35,7 @@ public class FlipCard : MonoBehaviour
     }
 
 
-    IEnumerator FlipTheCard(bool shouldDisplayFaceOfCard)
+    IEnumerator FlipTheCard(bool shouldDisplayFaceOfCard, Action flipCompleteCallBack)
     {
         yield return new WaitForSeconds(0.5f);
         float fromAngle = shouldDisplayFaceOfCard ? 0 : 180;
@@ -67,5 +59,7 @@ public class FlipCard : MonoBehaviour
             }
             yield return null;
         }
+
+        flipCompleteCallBack?.Invoke();
     }
 }

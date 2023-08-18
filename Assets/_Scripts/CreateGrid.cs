@@ -18,12 +18,6 @@ public class CreateGrid : MonoBehaviour
         gridItems = new List<GameObject>();
     }
 
-    private List<string> matchingItem = new List<string>()
-    {
-        "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"
-    };
-
-
     public void CreateGridM()
     {
         int totalItems = rows * columns;
@@ -35,8 +29,8 @@ public class CreateGrid : MonoBehaviour
 
         for (int i = 0; i < totalItems / 2; i++)
         {
-            InitCard(matchingItem[i]);
-            InitCard(matchingItem[i]);
+            InitCard(i);
+            InitCard(i);
         }
 
         gridItems.Shuffle();
@@ -48,11 +42,11 @@ public class CreateGrid : MonoBehaviour
 
     }
 
-    private void InitCard(string value)
+    private void InitCard(int faceIndex)
     {
         GameObject item = Instantiate(gridItem);
         CardCtrl cardCtrl = item.GetComponent<CardCtrl>();
-        cardCtrl.SetCard(value);
+        cardCtrl.SetCard(faceIndex);
         gridItems.Add(item);
     }
 }
