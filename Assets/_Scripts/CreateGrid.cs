@@ -13,6 +13,8 @@ public class CreateGrid : MonoBehaviour
     public int columns;
     private List<GameObject> gridItems;
 
+    Queue<CardCtrl> openCards = new Queue<CardCtrl>();
+
     private void Awake()
     {
         gridItems = new List<GameObject>();
@@ -40,13 +42,50 @@ public class CreateGrid : MonoBehaviour
             gridItems[i].transform.SetParent(gridParent.transform);
         }
 
+        StartCoroutine(DisableLayout());
+    }
+
+    IEnumerator DisableLayout()
+    {
+        yield return new WaitForSeconds(1);
+        gridLayout.enabled = false;
+
     }
 
     private void InitCard(int faceIndex)
     {
         GameObject item = Instantiate(gridItem);
         CardCtrl cardCtrl = item.GetComponent<CardCtrl>();
-        cardCtrl.SetCard(faceIndex);
+        cardCtrl.SetCard(this, faceIndex);
         gridItems.Add(item);
+    }
+
+
+
+    public void SetOpenCard(CardCtrl cardCtrl)
+    {
+        openCards.Enqueue(cardCtrl);
+        ValidateCardsMatched();
+    }
+
+    public void ValidateCardsMatched()
+    {
+        if(openCards.Count >=2)
+        {
+            CardCtrl card1 = openCards.Dequeue();
+            CardCtrl card2 = openCards.Dequeue();
+
+            Debug.Log("card1: " + card1.faceIndex + ", card2: " + card2.faceIndex);
+            if (card1.faceIndex == card2.faceIndex)
+            {
+                Destroy(card1.gameObject);
+                Destroy(card2.gameObject);
+            }
+            else
+            {
+                card1.CloseCard();
+                card2.CloseCard();
+            }
+        }
     }
 }

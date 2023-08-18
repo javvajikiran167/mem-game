@@ -11,16 +11,31 @@ public class CardCtrl : MonoBehaviour
     public Sprite[] faces;
     public Sprite back;
     public Image image;
+    public Button cardButton;
     public int faceIndex;
+    CreateGrid gridCtrl;
 
+    private void Awake()
+    {
+        cardButton.onClick.RemoveAllListeners();
+        cardButton.onClick.AddListener(OnClick);
+    }
 
     public void OnClick()
     {
-        image.sprite = image.sprite == back ? faces[0] : back;
+        cardButton.interactable = false;
+        flipCard.OpenCard(() => { image.sprite = faces[faceIndex]; }, () => { gridCtrl.SetOpenCard(this); });
     }
 
-    public void SetCard(int faceIndex)
+    public void CloseCard()
     {
-        image.sprite = faces[faceIndex];
+        flipCard.CloseCard(() => { image.sprite = back; }, () => { cardButton.interactable = true; });
+    }
+
+    public void SetCard(CreateGrid gridCtrl, int faceIndex)
+    {
+        this.gridCtrl = gridCtrl;
+        this.faceIndex = faceIndex;
+        image.sprite = back;
     }
 }
