@@ -36,6 +36,32 @@ public class CreateGridCtrl : MonoBehaviour
         return gridItems;
     }
 
+    public CardHolder[] CreateGridWithExistingState(int rows, int columns, GameCtrl gameCtrl, int[] faceIndexes)
+    {
+        int totalItems = rows * columns;
+        CardHolder[] gridItems = new CardHolder[totalItems];
+        SetGridProperties(rows, columns);
+
+        //Create 2 card of same face index
+        for (int i = 0; i < totalItems; i++)
+        {
+            int faceIndex = faceIndexes[i];
+
+            if (faceIndex >= 0) {
+                gridItems[i] = CreateGridItem(faceIndexes[i], gameCtrl);
+            }
+            else
+            {
+                gridItems[i] = CreateGridItem(0, gameCtrl);
+                gridItems[i].cardCtrl.gameObject.SetActive(false);
+            }
+
+            gridItems[i].transform.SetParent(gridParent.transform);
+        }
+
+        return gridItems;
+    }
+
     private void SetGridProperties(int rows, int columns)
     {
         gridLayout.constraint = GridLayoutGroup.Constraint.FixedRowCount;
