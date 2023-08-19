@@ -1460,7 +1460,7 @@ MonoBehaviour:
   m_StartAxis: 0
   m_CellSize: {x: 50, y: 50}
   m_Spacing: {x: 20, y: 20}
-  m_Constraint: 0
+  m_Constraint: 2
   m_ConstraintCount: 2
 --- !u!114 &2130543650
 MonoBehaviour:
@@ -1477,7 +1477,8 @@ MonoBehaviour:
   gridParent: {fileID: 2130543644}
   gridLayout: {fileID: 2130543649}
   gridItem: {fileID: 6249067742961370731, guid: e08bc6f56ec464fa8b14beec59ea4eb4, type: 3}
-  totalItems: 10
+  rows: 3
+  columns: 4
   scoreText: {fileID: 1297648552}
   gameStatusText: {fileID: 1704349553}
 --- !u!1 &2137956808

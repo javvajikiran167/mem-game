@@ -11,7 +11,8 @@ public class CreateGrid : MonoBehaviour
     public GridLayoutGroup gridLayout;
     public GameObject gridItem;
 
-    public int totalItems;
+    public int rows,columns;
+    
     private List<CardCtrl> gridItems;
 
     Queue<CardCtrl> openCards = new Queue<CardCtrl>();
@@ -30,11 +31,25 @@ public class CreateGrid : MonoBehaviour
     #region Create Grid
     public void CreateGridM()
     {
+        int totalItems = rows * columns;
         if (totalItems % 2 != 0)
         {
             Debug.Log("Can't Create Grid with given Row and Columns");
             return;
         }
+        gridLayout.constraint = GridLayoutGroup.Constraint.FixedRowCount;
+        gridLayout.constraintCount = rows;
+
+        float spaceXY = 20; 
+        float gridW = gridParent.GetComponent<RectTransform>().sizeDelta.x;
+        float gridH = gridParent.GetComponent<RectTransform>().sizeDelta.y;
+
+        float itemW = (gridW - (rows * spaceXY)) / rows;
+        float itemH = (gridH - (columns * spaceXY)) / columns;
+        float finalItemWH = Math.Min(itemW, itemH);
+        gridLayout.cellSize = new Vector2(finalItemWH, finalItemWH);
+        gridLayout.spacing = new Vector2(spaceXY, spaceXY);
+
 
         for (int i = 0; i < totalItems / 2; i++)
         {
@@ -72,7 +87,7 @@ public class CreateGrid : MonoBehaviour
 
     public void StartGame()
     {
-        for (int i = 0; i < totalItems; i++)
+        for (int i = 0; i < rows * columns; i++)
         {
             gridItems[i].CloseCard();
         }
@@ -90,7 +105,7 @@ public class CreateGrid : MonoBehaviour
 
     private void ValidateGameEnd()
     {
-        if (score == totalItems / 2)
+        if (score == (rows * columns) / 2)
         {
             AudioCtrl.instance.PlayGameOver();
             gameStatusText.text = "Game Over";
