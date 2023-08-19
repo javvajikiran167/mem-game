@@ -407,9 +407,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2130543650}
-        m_TargetAssemblyTypeName: CreateGrid, Assembly-CSharp
-        m_MethodName: CreateGridM
+      - m_Target: {fileID: 2057668240}
+        m_TargetAssemblyTypeName: GameCtrl, Assembly-CSharp
+        m_MethodName: CreateGrid
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1228,6 +1228,55 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1998842459}
   m_CullTransparentMesh: 1
+--- !u!1 &2057668239
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2057668241}
+  - component: {fileID: 2057668240}
+  m_Layer: 0
+  m_Name: GameCtrl
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2057668240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2057668239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a76e0b4f4e15b41ad96d4ccc5e9d8f2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  createGridCtrl: {fileID: 2130543650}
+  scoreText: {fileID: 1297648552}
+  gameStatusText: {fileID: 1704349553}
+  rows: 3
+  columns: 4
+--- !u!4 &2057668241
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2057668239}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 448.5, y: 252.25, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2078116486
 GameObject:
   m_ObjectHideFlags: 0
@@ -1311,8 +1360,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2130543650}
-        m_TargetAssemblyTypeName: CreateGrid, Assembly-CSharp
+      - m_Target: {fileID: 2057668240}
+        m_TargetAssemblyTypeName: GameCtrl, Assembly-CSharp
         m_MethodName: StartGame
         m_Mode: 1
         m_Arguments:
@@ -1477,10 +1526,6 @@ MonoBehaviour:
   gridParent: {fileID: 2130543644}
   gridLayout: {fileID: 2130543649}
   gridItem: {fileID: 7840674135505616372, guid: f1bb8cfb9695b4aefb4cf0d6aefad704, type: 3}
-  rows: 3
-  columns: 4
-  scoreText: {fileID: 1297648552}
-  gameStatusText: {fileID: 1704349553}
 --- !u!1 &2137956808
 GameObject:
   m_ObjectHideFlags: 0
@@ -1636,3 +1681,4 @@ SceneRoots:
   - {fileID: 432156309}
   - {fileID: 1640831295}
   - {fileID: 2137956810}
+  - {fileID: 2057668241}

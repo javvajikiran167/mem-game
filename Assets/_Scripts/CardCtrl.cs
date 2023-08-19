@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,7 +10,7 @@ public class CardCtrl : MonoBehaviour
     public Image image;
     public Button cardButton;
     public int faceIndex;
-    CreateGrid gridCtrl;
+    GameCtrl gameCtrl;
 
     private void Awake()
     {
@@ -24,7 +21,7 @@ public class CardCtrl : MonoBehaviour
     public void OnClick()
     {
         cardButton.interactable = false;
-        flipCard.OpenCard(() => { image.sprite = faces[faceIndex]; }, () => { gridCtrl.SetOpenCard(this); });
+        flipCard.OpenCard(() => { image.sprite = faces[faceIndex]; }, () => { gameCtrl.OnCardOpened(this); });
     }
 
     public void CloseCard()
@@ -38,9 +35,9 @@ public class CardCtrl : MonoBehaviour
         flipCard.OpenCard(() => { image.sprite = faces[faceIndex]; }, null);
     }
 
-    public void SetCard(CreateGrid gridCtrl, int faceIndex)
+    public void SetCard(GameCtrl gameCtrl, int faceIndex)
     {
-        this.gridCtrl = gridCtrl;
+        this.gameCtrl = gameCtrl;
         this.faceIndex = faceIndex;
         image.sprite = back;
     }
