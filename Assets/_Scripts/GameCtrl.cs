@@ -1,10 +1,21 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class GameCtrl : MonoBehaviour
 {
+    [Serializable]
+    public class GameState
+    {
+        public int rows, columns;
+        public bool isInProgress;
+        public int[] faces; //if index is -ve, then that is already matched;
+        public int score;
+    }
+
+
     [SerializeField] private CreateGridCtrl createGridCtrl;
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] public TextMeshProUGUI gameStatusText;
@@ -30,18 +41,22 @@ public class GameCtrl : MonoBehaviour
         else
         {
             gridItems = createGridCtrl.CreateGrid(rows, columns, this);
+            StartCoroutine(CloseCards());
         }
     }
 
 
-    public void StartGame()
+    IEnumerator CloseCards()
     {
+        yield return new WaitForSeconds(3);
         for (int i = 0; i < rows * columns; i++)
         {
             gridItems[i].cardCtrl.CloseCard();
         }
     }
-   
+
+
+    #region Cards Matching
     public void OnCardOpened(CardCtrl cardCtrl)
     {
         AudioCtrl.instance.PlayCardFlip();
@@ -81,6 +96,8 @@ public class GameCtrl : MonoBehaviour
         }
     }
 
+    #endregion
+
     private void SetScore(int m_score)
     {
         score = m_score;
@@ -91,22 +108,6 @@ public class GameCtrl : MonoBehaviour
     {
         score = 0;
         gameStatusText.text = string.Empty;
-    }
-
-
-
-    [Serializable]
-    public class GameState
-    {
-        public int rows, columns;
-        public bool isInProgress;
-        public int[] faces; //if index is -ve, then that is already matched;
-        public int score;
-    }
-
-    void OnApplicationQuit()
-    {
-        SaveGameState();
     }
 
     public void SaveGameState()
@@ -134,5 +135,10 @@ public class GameCtrl : MonoBehaviour
         gameState.isInProgress = isInProgress;
 
         PlayerPrefs.SetString("GameState", JsonUtility.ToJson(gameState));
+    }
+
+    void OnApplicationQuit()
+    {
+        SaveGameState();
     }
 }
