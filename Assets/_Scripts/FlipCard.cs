@@ -25,12 +25,12 @@ public class FlipCard : MonoBehaviour
                 (!shouldOpen && (angle > 270 && angle < 360))) && !uncovered)
             {
                 uncovered = true;
-                halfFlipCompleted();
+                halfFlipCompleted?.Invoke();
             }
             yield return null;
         }
 
-        flipCompleted();
+        flipCompleted?.Invoke();
     }
 
     public void OpenCard(Action halfFlipCompleted, Action flipCompleted)

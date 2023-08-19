@@ -32,6 +32,12 @@ public class CardCtrl : MonoBehaviour
         flipCard.CloseCard(() => { image.sprite = back; }, () => { cardButton.interactable = true; });
     }
 
+    public void OpenCardBeforeGameStart()
+    {
+        cardButton.interactable = false;
+        flipCard.OpenCard(() => { image.sprite = faces[faceIndex]; }, null);
+    }
+
     public void SetCard(CreateGrid gridCtrl, int faceIndex)
     {
         this.gridCtrl = gridCtrl;

@@ -11,9 +11,8 @@ public class CreateGrid : MonoBehaviour
     public GridLayoutGroup gridLayout;
     public GameObject gridItem;
 
-    public int rows;
-    public int columns;
-    private List<GameObject> gridItems;
+    public int totalItems;
+    private List<CardCtrl> gridItems;
 
     Queue<CardCtrl> openCards = new Queue<CardCtrl>();
 
@@ -24,13 +23,13 @@ public class CreateGrid : MonoBehaviour
 
     private void Awake()
     {
-        gridItems = new List<GameObject>();
+        gridItems = new List<CardCtrl>();
         gameStatusText.text = string.Empty;
     }
 
+    #region Create Grid
     public void CreateGridM()
     {
-        int totalItems = rows * columns;
         if (totalItems % 2 != 0)
         {
             Debug.Log("Can't Create Grid with given Row and Columns");
@@ -48,6 +47,7 @@ public class CreateGrid : MonoBehaviour
         for (int i = 0; i < totalItems; i++)
         {
             gridItems[i].transform.SetParent(gridParent.transform);
+            gridItems[i].OpenCardBeforeGameStart();
         }
 
         StartCoroutine(DisableLayout());
@@ -65,8 +65,19 @@ public class CreateGrid : MonoBehaviour
         GameObject item = Instantiate(gridItem);
         CardCtrl cardCtrl = item.GetComponent<CardCtrl>();
         cardCtrl.SetCard(this, faceIndex);
-        gridItems.Add(item);
+        gridItems.Add(cardCtrl);
     }
+    #endregion
+
+
+    public void StartGame()
+    {
+        for (int i = 0; i < totalItems; i++)
+        {
+            gridItems[i].CloseCard();
+        }
+    }
+
 
     public void SetOpenCard(CardCtrl cardCtrl)
     {
@@ -75,12 +86,11 @@ public class CreateGrid : MonoBehaviour
         ValidateCardsMatched();
 
         ValidateGameEnd();
-
     }
 
     private void ValidateGameEnd()
     {
-        if (score == rows * columns / 2)
+        if (score == totalItems / 2)
         {
             AudioCtrl.instance.PlayGameOver();
             gameStatusText.text = "Game Over";
