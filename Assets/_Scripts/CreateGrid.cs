@@ -13,7 +13,7 @@ public class CreateGrid : MonoBehaviour
 
     public int rows,columns;
     
-    private List<CardCtrl> gridItems;
+    private List<CardHolder> gridItems;
 
     Queue<CardCtrl> openCards = new Queue<CardCtrl>();
 
@@ -24,7 +24,7 @@ public class CreateGrid : MonoBehaviour
 
     private void Awake()
     {
-        gridItems = new List<CardCtrl>();
+        gridItems = new List<CardHolder>();
         gameStatusText.text = string.Empty;
     }
 
@@ -62,25 +62,16 @@ public class CreateGrid : MonoBehaviour
         for (int i = 0; i < totalItems; i++)
         {
             gridItems[i].transform.SetParent(gridParent.transform);
-            gridItems[i].OpenCardBeforeGameStart();
+            gridItems[i].cardCtrl.OpenCardBeforeGameStart();
         }
-
-        StartCoroutine(DisableLayout());
-    }
-
-    IEnumerator DisableLayout()
-    {
-        yield return new WaitForSeconds(1);
-        gridLayout.enabled = false;
-
     }
 
     private void InitCard(int faceIndex)
     {
         GameObject item = Instantiate(gridItem);
-        CardCtrl cardCtrl = item.GetComponent<CardCtrl>();
-        cardCtrl.SetCard(this, faceIndex);
-        gridItems.Add(cardCtrl);
+        CardHolder cardHolder = item.GetComponent<CardHolder>();
+        cardHolder.cardCtrl.SetCard(this, faceIndex);
+        gridItems.Add(cardHolder);
     }
     #endregion
 
@@ -89,7 +80,7 @@ public class CreateGrid : MonoBehaviour
     {
         for (int i = 0; i < rows * columns; i++)
         {
-            gridItems[i].CloseCard();
+            gridItems[i].cardCtrl.CloseCard();
         }
     }
 
@@ -122,8 +113,8 @@ public class CreateGrid : MonoBehaviour
             Debug.Log("card1: " + card1.faceIndex + ", card2: " + card2.faceIndex);
             if (card1.faceIndex == card2.faceIndex)
             {
-                Destroy(card1.gameObject);
-                Destroy(card2.gameObject);
+                card1.gameObject.SetActive(false);
+                card2.gameObject.SetActive(false);
                 AudioCtrl.instance.PlayCardsMatched();
                 AddScore();
             }
